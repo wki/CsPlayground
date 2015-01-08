@@ -12,7 +12,7 @@ namespace CsPlayground
     {
         public void Intercept(IInvocation invocation)
         {
-            Log("Before executing {0}", invocation.Method.Name);
+            Log("Before executing {0}({1})", invocation.Method.Name, String.Join(", ", invocation.Arguments));
             invocation.Proceed();
             Log("Finished {0}, got {1}", invocation.Method.Name, invocation.ReturnValue ?? "NULL");
         }
