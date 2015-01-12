@@ -55,7 +55,7 @@
     <Compile Include="Adder.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="IAdder.cs" />
-    <Compile Include="LoggingaInterceptor.cs" />
+    <Compile Include="LoggingInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Start.cs" />
   </ItemGroup>
