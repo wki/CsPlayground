@@ -1,5 +1,4 @@
-﻿using Castle.Windsor;
-using Castle.Windsor.Installer;
+﻿using Microsoft.Practices.Unity;
 using System;
 
 namespace CsPlayground
@@ -8,16 +7,16 @@ namespace CsPlayground
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Starting Main");
+            Console.WriteLine("Main start");
 
-            var container = new WindsorContainer()
-                .Install(FromAssembly.This());
+            var container = new UnityContainer();
+            Bootstrapper.Install(container); // find a way to do this by convention
 
             var adder = container.Resolve<IAdder>();
 
-            adder.Add1(3);
+            Console.WriteLine("Add1(3) = {0}", adder.Add1(3));
 
-            Console.WriteLine("Ending Main");
+            Console.WriteLine("Main end");
         }
     }
 }

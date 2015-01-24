@@ -1,32 +1,23 @@
-﻿using Castle.Core;
-using Castle.Core.Logging;
-using Castle.DynamicProxy;
-using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.Windsor;
+﻿using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.InterceptionExtension;
 using System;
 
 namespace CsPlayground
 {
     /// <summary>
-    /// Will be automatically called via .Install() by Windsor
+    /// must be instantiated and called from startup
     /// </summary>
-    public class Bootstrapper: IWindsorInstaller
+    public class Bootstrapper
     {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
+        static public void Install(IUnityContainer container)
         {
             Console.WriteLine("Installing Container");
 
-            container.Register(
-                Component.For<IInterceptor>()
-                    .ImplementedBy<LoggingInterceptor>()
-                    .Named("logginginterceptor")
-            );
-            container.Register(
-                Component.For<IAdder>()
-                    .ImplementedBy<Adder>()
-                    .Interceptors(InterceptorReference.ForKey("logginginterceptor")).Anywhere
-            );
+            container
+                .AddNewExtension<Interception>()
+                .RegisterType<IAdder, Adder>(
+                    new Interceptor<InterfaceInterceptor>(),
+                    new InterceptionBehavior<LoggingInterceptor>("logging"));
         }
     }
 }
